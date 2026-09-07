@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart-reader</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Smart-reader</h1>
+      <button id="game-btn">Мой словарь</button>
+    </header>
+    <main>
+      <section id="library-screen">
+        <h2>Мои книги</h2>
+        <div class="upload-container">
+            <label for="file-input">+ Добавить книгу (PDF/FB2)</label>
+            <input type="file" id="file-input" accept=".pdf, .fb2">
+        </div>
+        <div id="books-grid">
+
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
