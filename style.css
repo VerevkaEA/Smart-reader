@@ -116,3 +116,136 @@ main {
   border-radius: 3px;
   width: 45%;
 }
+
+.hidden{
+  display: none;
+}
+
+.reader-header{
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.reader-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position:relative;
+}
+
+#book-text-content{
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 8px;
+  width: 100%;
+  margin: 0 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02)
+}
+
+.nav-btn{
+  background-color: #ffffff;
+  border-radius: 50%;
+  width: 40px;
+  height:40px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: background-color 0.2s;
+}
+
+.nav-btn:hover{
+  background-color: #e0e0e0;
+}
+
+#page-counter{
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: #7f8c8d;
+  margin: 0;
+}
+
+.modal{
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 320px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  z-index: 100;
+}
+
+#close-modal-btn{
+position: absolute;
+top: 15px;
+right: 15px;
+background: none;
+border: none;
+cursor: pointer;
+color: #95a5a6;
+font-size: 16px;
+transition: color 0.2s;
+}
+
+#close-modal-btn:hover{
+color: #333333;
+}
+
+.audio-block{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+#play-audio-btn{
+  border: none;
+  border-radius: 50%;
+  background-color: #f0f2f5;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#play-audio-btn:hover{
+  background-color: #e4e7eb;
+}
+
+#modal-word{
+  margin: 0 0 5px 0;
+}
+
+#modal-translation{
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#modal-synonyms{
+  font-style: italic;
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+#add-to-vocab-btn{
+  width: 100%;
+  background-color: #4a90e2;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+   transition: background-color 0.2s;
+}
+
+#add-to-vocab-btn:hover{
+  background-color: #357abd;
+}
