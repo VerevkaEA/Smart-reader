@@ -13,6 +13,9 @@ const bookTextContent = document.getElementById("book-text-content");
 const pageCounter = document.getElementById("page-counter");
 const prevBtn = document.getElementById("prev-page-btn");
 const nextBtn = document.getElementById("next-page-btn");
+const dictModal = document.getElementById("dict-modal");
+const modalWord = document.getElementById("modal-word");
+const closeModalBtn = document.getElementById("close-modal-btn");
 
 backBtn.addEventListener("click", () => {
   readerScreen.classList.add("hidden");
@@ -90,3 +93,29 @@ function processText(rawText) {
     bookTextContent.appendChild(document.createTextNode(" "));
   });
 }
+
+bookTextContent.addEventListener("click", (e) => {
+  const target = e.target;
+  const clickedWord = target.textContent
+    .replace(/[.,\/#!\$%\^&\*;:{}=\-_~()?"']/g, "")
+    .toLowerCase();
+
+  if (target.classList.contains("word")) {
+    dictModal.classList.remove("hidden");
+    modalWord.textContent = clickedWord;
+  }
+});
+
+closeModalBtn.addEventListener("click", () => {
+  dictModal.classList.add("hidden");
+});
+
+document.addEventListener("click", (e) => {
+  if (
+    !dictModal.contains(e.target) &&
+    !e.target.classList.contains("word") &&
+    !dictModal.classList.contains("hidden")
+  ) {
+    dictModal.classList.add("hidden");
+  }
+});

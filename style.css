@@ -202,14 +202,17 @@ main {
   right: 15px;
   background: none;
   border: none;
+  border-radius: 50%;
   cursor: pointer;
   color: #95a5a6;
   font-size: 16px;
   transition: color 0.2s;
+  background-color: #ffffff;
 }
 
 #close-modal-btn:hover {
-  color: #333333;
+    color: #333333;
+    background-color: #bcc5c5;
 }
 
 .audio-block {
