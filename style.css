@@ -264,3 +264,13 @@ main {
 #add-to-vocab-btn:hover {
   background-color: #357abd;
 }
+
+.word{
+  cursor: pointer;
+  background-color: #ffffff;
+  transition: background-color 0.2s;
+}
+
+.word:hover{
+background-color: #dfe6eb;
+}

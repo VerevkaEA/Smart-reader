@@ -57,23 +57,36 @@ function renderPage(pageNumber) {
   currentPdf.getPage(pageNumber).then((page) => {
     page.getTextContent().then((textContent) => {
       const text = textContent.items.map((item) => item.str).join(" ");
-      bookTextContent.textContent = text;
+      processText(text);
     });
   });
 
   pageCounter.textContent = `Страница: ${pageNumber} / ${totalPages}`;
 }
 
-nextBtn.addEventListener("click",()=>{
-if (currentPage<totalPages){
-  currentPage++
-  renderPage(currentPage)
-}
-})
-
-prevBtn.addEventListener("click",()=>{
-  if(currentPage>1){
-    currentPage--
-    renderPage(currentPage)
+nextBtn.addEventListener("click", () => {
+  if (currentPage < totalPages) {
+    currentPage++;
+    renderPage(currentPage);
   }
-})
+});
+
+prevBtn.addEventListener("click", () => {
+  if (currentPage > 1) {
+    currentPage--;
+    renderPage(currentPage);
+  }
+});
+
+function processText(rawText) {
+  const words = rawText.split(" ");
+  bookTextContent.innerHTML = "";
+
+  words.forEach((word) => {
+    const span = document.createElement("span");
+    span.textContent = word;
+    span.classList.add("word");
+    bookTextContent.appendChild(span);
+    bookTextContent.appendChild(document.createTextNode(" "));
+  });
+}
