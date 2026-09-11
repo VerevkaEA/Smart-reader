@@ -1,4 +1,5 @@
-pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.10.111/pdf.worker.min.js";
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.10.111/pdf.worker.min.js";
 
 let currentPage = 1;
 let totalPages = 0;
@@ -19,7 +20,8 @@ const modalWord = document.getElementById("modal-word");
 const closeModalBtn = document.getElementById("close-modal-btn");
 const modalTranslation = document.getElementById("modal-translation");
 const modalDefinition = document.getElementById("modal-definition");
-const playAudioBtn=document.getElementById("play-audio-btn")
+const playAudioBtn = document.getElementById("play-audio-btn");
+const addToVocabBtn = document.getElementById("add-to-vocab-btn");
 
 backBtn.addEventListener("click", () => {
   readerScreen.classList.add("hidden");
@@ -104,6 +106,9 @@ bookTextContent.addEventListener("click", (e) => {
     .toLowerCase();
 
   if (target.classList.contains("word")) {
+    addToVocabBtn.textContent = "⭐Добавить в словарь";
+    addToVocabBtn.classList.remove("active");
+
     dictModal.classList.remove("hidden");
     modalWord.textContent = clickedWord;
 
@@ -118,19 +123,41 @@ closeModalBtn.addEventListener("click", () => {
   dictModal.classList.add("hidden");
 });
 
-playAudioBtn.addEventListener('click',()=>{
+playAudioBtn.addEventListener("click", () => {
   const wordToSpeak = modalWord.textContent;
-  
+
   if (!wordToSpeak) return;
 
-  if ('speechSynthesis' in window) {
-       const utterance = new SpeechSynthesisUtterance(wordToSpeak);
-    utterance.lang = 'en-US'; 
-    utterance.rate = 0.8;    
-   
+  if ("speechSynthesis" in window) {
+    const utterance = new SpeechSynthesisUtterance(wordToSpeak);
+    utterance.lang = "en-US";
+    utterance.rate = 0.8;
+
     window.speechSynthesis.speak(utterance);
   } else {
     alert("Ваш браузер не поддерживает озвучивание речи.");
+  }
+});
+
+addToVocabBtn.addEventListener("click", () => {
+  const newWord = {
+    word: modalWord.textContent,
+    translation: modalTranslation.textContent,
+  };
+
+  const vocabulary = JSON.parse(localStorage.getItem("vocabulary")) || [];
+
+  if (vocabulary.some((item) => item.word === newWord.word)) {
+    addToVocabBtn.textContent = "📓 Слово уже в словаре!";
+    console.log("Yze est");
+  }
+
+  if (!vocabulary.some((item) => item.word === newWord.word)) {
+    vocabulary.push(newWord);
+    localStorage.setItem("vocabulary", JSON.stringify(vocabulary));
+    addToVocabBtn.textContent = "✓ Добавлено!";
+    addToVocabBtn.classList.toggle("active");
+    console.log("Zapisano");
   }
 });
 
@@ -157,8 +184,8 @@ function getTranslation(word) {
       }
 
       modalTranslation.textContent = data.translation || "Не найдено";
-      modalDefinition.textContent = data.definition || "Определение отсутствует";
-
+      modalDefinition.textContent =
+        data.definition || "Определение отсутствует";
     })
     .catch((error) => {
       console.error("Ошибка получения данных:", error);

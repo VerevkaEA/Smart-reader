@@ -197,7 +197,7 @@ main {
 }
 
 #close-modal-btn {
-    position: absolute;
+  position: absolute;
   top: 15px;
   right: 15px;
   background: none;
@@ -211,8 +211,8 @@ main {
 }
 
 #close-modal-btn:hover {
-    color: #333333;
-    background-color: #bcc5c5;
+  color: #333333;
+  background-color: #bcc5c5;
 }
 
 .audio-block {
@@ -246,7 +246,7 @@ main {
   margin-bottom: 10px;
 }
 
-#modal-definition{
+#modal-definition {
   font-style: italic;
   color: #7f8c8d;
   font-size: 14px;
@@ -269,12 +269,16 @@ main {
   background-color: #357abd;
 }
 
-.word{
+#add-to-vocab-btn.active {
+  background-color: #27ae60;
+}
+
+.word {
   cursor: pointer;
   background-color: #ffffff;
   transition: background-color 0.2s;
 }
 
-.word:hover{
-background-color: #dfe6eb;
+.word:hover {
+  background-color: #dfe6eb;
 }
