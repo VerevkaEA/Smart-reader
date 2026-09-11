@@ -1,8 +1,9 @@
-pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cloudflare.com";
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.10.111/pdf.worker.min.js";
 
 let currentPage = 1;
 let totalPages = 0;
 let currentPdf = null;
+
 const testBookCard = document.querySelector(".book-card");
 const libraryScreen = document.getElementById("library-screen");
 const readerScreen = document.getElementById("reader-screen");
@@ -16,6 +17,8 @@ const nextBtn = document.getElementById("next-page-btn");
 const dictModal = document.getElementById("dict-modal");
 const modalWord = document.getElementById("modal-word");
 const closeModalBtn = document.getElementById("close-modal-btn");
+const modalTranslation = document.getElementById("modal-translation");
+const modalDefinition = document.getElementById("modal-definition");
 
 backBtn.addEventListener("click", () => {
   readerScreen.classList.add("hidden");
@@ -41,7 +44,6 @@ fileInput.addEventListener("change", (event) => {
       console.log("Книга открыта, всего страниц:", pdf.numPages);
 
       bookTitle.textContent = file.name;
-
       readerScreen.classList.remove("hidden");
       libraryScreen.classList.add("hidden");
 
@@ -103,6 +105,11 @@ bookTextContent.addEventListener("click", (e) => {
   if (target.classList.contains("word")) {
     dictModal.classList.remove("hidden");
     modalWord.textContent = clickedWord;
+
+    modalTranslation.textContent = "Searching...";
+    modalDefinition.textContent = "Definition...";
+
+    getTranslation(clickedWord);
   }
 });
 
@@ -119,3 +126,26 @@ document.addEventListener("click", (e) => {
     dictModal.classList.add("hidden");
   }
 });
+
+function getTranslation(word) {
+  modalTranslation.textContent = "Searching...";
+  modalDefinition.textContent = "Definition...";
+
+  fetch(`http://localhost:3000/api/translate?word=${encodeURIComponent(word)}`)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        modalTranslation.textContent = "Translation error";
+        return;
+      }
+
+      modalTranslation.textContent = data.translation || "Не найдено";
+      modalDefinition.textContent = data.definition || "Определение отсутствует";
+
+    })
+    .catch((error) => {
+      console.error("Ошибка получения данных:", error);
+      modalTranslation.textContent = "Translation error";
+      modalDefinition.textContent = "Definition error";
+    });
+}
