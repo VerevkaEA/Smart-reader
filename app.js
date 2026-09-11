@@ -19,6 +19,7 @@ const modalWord = document.getElementById("modal-word");
 const closeModalBtn = document.getElementById("close-modal-btn");
 const modalTranslation = document.getElementById("modal-translation");
 const modalDefinition = document.getElementById("modal-definition");
+const playAudioBtn=document.getElementById("play-audio-btn")
 
 backBtn.addEventListener("click", () => {
   readerScreen.classList.add("hidden");
@@ -115,6 +116,22 @@ bookTextContent.addEventListener("click", (e) => {
 
 closeModalBtn.addEventListener("click", () => {
   dictModal.classList.add("hidden");
+});
+
+playAudioBtn.addEventListener('click',()=>{
+  const wordToSpeak = modalWord.textContent;
+  
+  if (!wordToSpeak) return;
+
+  if ('speechSynthesis' in window) {
+       const utterance = new SpeechSynthesisUtterance(wordToSpeak);
+    utterance.lang = 'en-US'; 
+    utterance.rate = 0.8;    
+   
+    window.speechSynthesis.speak(utterance);
+  } else {
+    alert("Ваш браузер не поддерживает озвучивание речи.");
+  }
 });
 
 document.addEventListener("click", (e) => {
