@@ -72,6 +72,7 @@ main {
 }
 
 .book-card {
+  position: relative;
   background-color: #ffffff;
   padding: 15px;
   border-radius: 8px;
@@ -98,10 +99,18 @@ main {
   font-size: 18px;
 }
 
-.book-author {
-  color: #7f8c8d;
-  font-size: 14px;
-  margin: 0 0 15px 0;
+.delete-book-btn{
+ display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  font-size: 18px;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .progress-container {
