@@ -1,35 +1,56 @@
+const vocabScreen = document.getElementById("vocab-screen");
+  const gameScreen = document.getElementById("game-screen");
+  const startGameBtn = document.getElementById("start-game-btn");
+  const backToVocabBtn = document.getElementById("back-to-vocab-btn");
+  const readerScreen = document.getElementById("reader-screen");
+  const libraryScreen = document.getElementById("library-screen");
+
 
 export function renderVocabulary() {
-    console.log("Screen vocab");
+  console.log("Screen vocab");
 
-     const vocabList=document.getElementById('vocab-list')
-    const vocabCount=document.getElementById('vocab-count')
+  const vocabList = document.getElementById("vocab-list");
+  const vocabCount = document.getElementById("vocab-count");
+  
+  vocabList.innerHTML = "";
 
-    vocabList.innerHTML=""
+  const vocabulary = JSON.parse(localStorage.getItem("vocabulary")) || [];
 
-    const vocabulary=JSON.parse(localStorage.getItem("vocabulary")) || [];
+  vocabCount.textContent = vocabulary.length;
 
-    vocabCount.textContent=vocabulary.length
-
-    vocabulary.forEach((item)=>{
-        const wordCard=`
+  vocabulary.forEach((item) => {
+    const wordCard = `
         <div class="word-card">
         <button class="delete-word-btn">✕</button>
         <h4>${item.word}</h4>
         <p>${item.translation}</p>
-        </div>`
+        </div>`;
 
-        vocabList.insertAdjacentHTML("beforeend", wordCard);
-    
-        const card=vocabList.lastElementChild
-        const deleteBtn=card.querySelector(".delete-word-btn")
+    vocabList.insertAdjacentHTML("beforeend", wordCard);
 
-        deleteBtn.addEventListener("click",(e)=>{
-            e.stopPropagation()
+    const card = vocabList.lastElementChild;
+    const deleteBtn = card.querySelector(".delete-word-btn");
 
-            const updatedVocabulary=vocabulary.filter((v)=> v.word !== item.word)
-            localStorage.setItem("vocabulary", JSON.stringify(updatedVocabulary));
-            renderVocabulary();
-        })
-    })
+    deleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      const updatedVocabulary = vocabulary.filter((v) => v.word !== item.word);
+      localStorage.setItem("vocabulary", JSON.stringify(updatedVocabulary));
+      renderVocabulary();
+    });
+  });
 }
+
+startGameBtn.addEventListener("click", () => {
+  vocabScreen.classList.add("hidden");
+  gameScreen.classList.remove("hidden");
+  readerScreen.classList.add("hidden");
+  libraryScreen.classList.add("hidden");
+});
+
+backToVocabBtn.addEventListener("click", () => {
+  gameScreen.classList.add("hidden");
+  vocabScreen.classList.remove("hidden");
+  readerScreen.classList.add("hidden");
+  libraryScreen.classList.add("hidden");
+});

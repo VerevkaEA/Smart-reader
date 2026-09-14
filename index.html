@@ -51,23 +51,35 @@
         </div>
       </section>
 
-<section id="vocab-screen" class="hidden">
-<div class="vocab-header">
-  <h2>Мой словарь</h2>
-  <div>Всего слов: <span id="vocab-count">0</span></div>
-</div>
-<div id="vocab-list" class="vocab-grid">
+      <section id="vocab-screen" class="hidden">
+        <div class="vocab-header">
+          <h2>Мой словарь</h2>
+          <div>Всего слов: <span id="vocab-count">0</span></div>
+        </div>
+        <div id="vocab-list" class="vocab-grid"></div>
+        <button id="start-game-btn" class="game-start-btn">
+          🎯Тренировка слов
+        </button>
+      </section>
 
-</div>
-<button id="start-game-btn" class="game-start-btn">Тренировка слов</button>
-</section>
+      <section id="game-screen" class="hidden">
+        <div class="game-header">
+          <button id="back-to-vocab-btn">< В словарь</button>
+          <h2>Найди пару</h2>
+        </div>
+        <div id="game-grid"></div>
+        <div id="win-message" class="hidden">
+          <p>🎉ВЫ НАШЛИ ВСЕ ПАРЫ!!!</p>
+          <button id="restart-game-btn">🔄</button>
+        </div>
+      </section>
 
       <div id="dict-modal" class="modal hidden">
         <button id="close-modal-btn">✕</button>
-       
+
         <div class="audio-block">
-           <h2 id="modal-word">book</h2>
-         
+          <h2 id="modal-word">book</h2>
+
           <button id="play-audio-btn">🔊</button>
         </div>
         <p id="modal-translation">книга</p>
