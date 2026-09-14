@@ -291,3 +291,61 @@ main {
 .word:hover {
   background-color: #dfe6eb;
 }
+
+.vocab-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.vocab-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.word-card{
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border-left: 4px solid #357abd;
+  }
+
+  .delete-word-btn{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #bbb;
+  }
+
+  .delete-word-btn:hover{
+    color: #e74c3c;
+  }
+
+  #start-game-btn{
+     background-color: #2ecc71;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+#start-game-btn:hover {
+  background-color: #27ae60;
+}
+  
