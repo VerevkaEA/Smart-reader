@@ -99,8 +99,8 @@ main {
   font-size: 18px;
 }
 
-.delete-book-btn{
- position: absolute;
+.delete-book-btn {
+  position: absolute;
   top: 20px;
   right: 20px;
   background: none;
@@ -127,7 +127,7 @@ main {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .reader-header {
@@ -292,7 +292,7 @@ main {
   background-color: #dfe6eb;
 }
 
-.vocab-header{
+.vocab-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -301,31 +301,31 @@ main {
   padding-bottom: 10px;
 }
 
-.vocab-grid{
+.vocab-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 15px;
   margin-bottom: 30px;
 }
 
-h4{
+h4 {
   margin: 15px 0 0 0;
 }
 
-.word-card{
+.word-card {
   background: white;
   padding: 10px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 5px;
   border-left: 4px solid #357abd;
-  }
+}
 
-  .delete-word-btn{
-   position: absolute;
+.delete-word-btn {
+  position: absolute;
   top: 15px;
   right: 15px;
   background: none;
@@ -343,8 +343,8 @@ h4{
   background-color: #bcc5c5;
 }
 
-  #start-game-btn{
-     background-color: #2ecc71;
+#start-game-btn {
+  background-color: #2ecc71;
   color: #ffffff;
   border: none;
   padding: 10px 20px;
@@ -359,15 +359,16 @@ h4{
   background-color: #27ae60;
 }
 
-#game-grid{
-display: grid;
-grid-template-columns: repeat(auto-fill,minmax(140px,1fr));
-gap: 12px;
-}  
+#game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
 
-.game-card{
- background-color: #ffffff;
+.game-card {
+  background-color: #ffffff;
   padding: 15px;
+  cursor: pointer;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   transition:
@@ -398,6 +399,59 @@ gap: 12px;
   transition: background-color 0.2s ease;
 }
 
-#back-to-vocab-btn:hover {
-  background-color: #616c6d;
+.game-card.selected {
+  border: 2px solid #357abd;
+  background-color: #d2e8f8;
+  transform: scale(1.05);
+}
+
+.game-card.correct {
+  border-color: #2ecc71;
+  background-color: #c0f0c4;
+  transform: scale(1.05);
+}
+
+.game-card.wrong {
+  border-color: #e74c3c;
+  background-color: #ffcccc;
+}
+
+.game-card.matched {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#win-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  min-height: 100px;
+  gap: 15px;
+  background-color: #e8f5e9;
+  border-radius: 12px;
+  margin-top: 30px;
+  padding: 30px;
+  width: 100%;
+}
+
+#win-message-text {
+  color: #27ae60;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+  margin: 0;
+}
+
+#restart-game-btn {
+  font-size: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+#restart-game-btn:hover {
+  transform: scale(1.2);
 }
