@@ -4,9 +4,9 @@ const startGameBtn = document.getElementById("start-game-btn");
 const backToVocabBtn = document.getElementById("back-to-vocab-btn");
 const readerScreen = document.getElementById("reader-screen");
 const libraryScreen = document.getElementById("library-screen");
-const restartGameBtn = document.getElementById("restart-game-btn")
+const restartGameBtn = document.getElementById("restart-game-btn");
 
-let isBoard=false
+let isBoard = false;
 let firstSelectedCard = null;
 
 export function renderVocabulary() {
@@ -60,7 +60,7 @@ function startGame() {
 
   gameGrid.innerHTML = "";
 
-  const winMessage=document.getElementById("win-message")
+  const winMessage = document.getElementById("win-message");
 
   winMessage.classList.add("hidden");
 
@@ -81,7 +81,7 @@ function startGame() {
 
     const cardElement = gameGrid.lastElementChild;
     cardElement.addEventListener("click", () => {
-if(isBoard) return;
+      if (isBoard) return;
 
       if (
         cardElement.classList.contains("selected") ||
@@ -112,7 +112,7 @@ if(isBoard) return;
             card2.classList.remove("correct");
             card1.classList.add("matched");
             card2.classList.add("matched");
-            checkWin()
+            checkWin();
           }, 500);
 
           firstSelectedCard = null;
@@ -139,11 +139,11 @@ if(isBoard) return;
   });
 }
 
-function checkWin(){
-  const winMessage=document.getElementById("win-message")
+function checkWin() {
+  const winMessage = document.getElementById("win-message");
 
-  if(document.querySelectorAll(".game-card:not(.matched)").length===0){
-    winMessage.classList.remove("hidden")
+  if (document.querySelectorAll(".game-card:not(.matched)").length === 0) {
+    winMessage.classList.remove("hidden");
   }
 }
 
@@ -163,6 +163,6 @@ backToVocabBtn.addEventListener("click", () => {
   libraryScreen.classList.add("hidden");
 });
 
-restartGameBtn.addEventListener("click",()=>{
-  startGame()
-})
+restartGameBtn.addEventListener("click", () => {
+  startGame();
+});

@@ -1,19 +1,17 @@
-import { 
-  currentPage, 
-  setCurrentPdf, 
-  setTotalPages, 
-  setCurrentPage 
-} from './app.js';
+import {
+  currentPage,
+  setCurrentPdf,
+  setTotalPages,
+  setCurrentPage,
+} from "./app.js";
 
-import { renderPage } from './reader.js';
-
+import { renderPage } from "./reader.js";
 
 const booksGrid = document.getElementById("books-grid");
 const fileInput = document.getElementById("file-input");
 const libraryScreen = document.getElementById("library-screen");
 const readerScreen = document.getElementById("reader-screen");
 const bookTitle = document.getElementById("reader-book-title");
-
 
 fileInput.addEventListener("change", (event) => {
   const file = event.target.files[0];
@@ -42,7 +40,7 @@ fileInput.addEventListener("change", (event) => {
       }
 
       if (!existingBook) {
-       setCurrentPdf(pdf);
+        setCurrentPdf(pdf);
         setTotalPages(pdf.numPages);
         setCurrentPage(1);
 
@@ -124,7 +122,7 @@ export function renderLibrary() {
         const typedarray = new Uint8Array(e.target.result);
         pdfjsLib.getDocument(typedarray).promise.then((pdf) => {
           setCurrentPdf(pdf);
-        setTotalPages(pdf.numPages);
+          setTotalPages(pdf.numPages);
           setCurrentPage(book.currentPage);
           bookTitle.textContent = book.title;
           readerScreen.classList.remove("hidden");
