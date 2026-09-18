@@ -13,9 +13,14 @@ const gameScreen = document.getElementById("game-screen");
 export let currentPage = 1;
 export let totalPages = 0;
 export let currentPdf = null;
+export let currentFb2Text="";
 
 export function setCurrentPdf(pdf) {
   currentPdf = pdf;
+}
+
+export function setCurrentFb2Text(text){
+  currentFb2Text=text;
 }
 
 export function setTotalPages(pages) {

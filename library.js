@@ -3,6 +3,7 @@ import {
   setCurrentPdf,
   setTotalPages,
   setCurrentPage,
+  setCurrentFb2Text,
 } from "./app.js";
 
 import { renderPage } from "./reader.js";
@@ -16,39 +17,97 @@ const bookTitle = document.getElementById("reader-book-title");
 fileInput.addEventListener("change", (event) => {
   const file = event.target.files[0];
   if (!file) return;
-  console.log("Выбран файл:", file.name);
 
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const typedarray = new Uint8Array(e.target.result);
-    console.log("Файл успешно прочитан в массив байтов!");
+  if (file.name.endsWith(".pdf")) {
+    console.log("Выбран файл pdf:", file.name);
 
-    pdfjsLib.getDocument(typedarray).promise.then((pdf) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const typedarray = new Uint8Array(e.target.result);
+      console.log("Файл успешно прочитан в массив байтов!");
+
+      pdfjsLib.getDocument(typedarray).promise.then((pdf) => {
+        const books = JSON.parse(localStorage.getItem("books")) || [];
+        const existingBook = books.find((book) => book.title === file.name);
+
+        console.log("Книга открыта, всего страниц:", pdf.numPages);
+
+        bookTitle.textContent = file.name;
+        readerScreen.classList.remove("hidden");
+        libraryScreen.classList.add("hidden");
+
+        if (existingBook) {
+          setCurrentPdf(pdf);
+          setTotalPages(pdf.numPages);
+          setCurrentPage(existingBook.currentPage);
+        }
+
+        if (!existingBook) {
+          setCurrentPdf(pdf);
+          setTotalPages(pdf.numPages);
+          setCurrentPage(1);
+
+          const newColor = getRandomColor();
+          const newBook = {
+            title: file.name,
+            currentPage: 1,
+            totalPages: pdf.numPages,
+            type: file.name.endsWith(".pdf") ? "pdf" : "fb2",
+            coverColor: newColor,
+          };
+
+          books.push(newBook);
+          localStorage.setItem("books", JSON.stringify(books));
+        }
+
+        idbKeyval.set(file.name, file);
+        renderPage(currentPage);
+      });
+    };
+
+    reader.readAsArrayBuffer(file);
+  } else if (file.name.endsWith(".fb2")) {
+    console.log("Выбран файл fb2:", file.name);
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const rawText = e.target.result;
+
+      const parser = new DOMParser();
+
+      const xmlDoc = parser.parseFromString(rawText, "text/xml");
+
+      const fullText = xmlDoc.documentElement.textContent || "";
+
+      setCurrentFb2Text(fullText);
+
+      console.log("Text:", fullText.substring(0, 100));
+
       const books = JSON.parse(localStorage.getItem("books")) || [];
       const existingBook = books.find((book) => book.title === file.name);
-
-      console.log("Книга открыта, всего страниц:", pdf.numPages);
 
       bookTitle.textContent = file.name;
       readerScreen.classList.remove("hidden");
       libraryScreen.classList.add("hidden");
 
+      const calculatedPages = Math.ceil(fullText.length / 1500);
+
       if (existingBook) {
-        setCurrentPdf(pdf);
-        setTotalPages(pdf.numPages);
+        setTotalPages(calculatedPages);
         setCurrentPage(existingBook.currentPage);
       }
 
       if (!existingBook) {
-        setCurrentPdf(pdf);
-        setTotalPages(pdf.numPages);
+        setTotalPages(calculatedPages);
         setCurrentPage(1);
-
         const newColor = getRandomColor();
+
         const newBook = {
           title: file.name,
           currentPage: 1,
-          totalPages: pdf.numPages,
+          totalPages: calculatedPages,
+          type: "fb2",
           coverColor: newColor,
         };
 
@@ -58,10 +117,9 @@ fileInput.addEventListener("change", (event) => {
 
       idbKeyval.set(file.name, file);
       renderPage(currentPage);
-    });
-  };
-
-  reader.readAsArrayBuffer(file);
+    };
+    reader.readAsText(file, "UTF-8");
+  }
 });
 
 function getRandomColor() {
@@ -118,19 +176,42 @@ export function renderLibrary() {
         return;
       }
       const reader = new FileReader();
-      reader.onload = (e) => {
-        const typedarray = new Uint8Array(e.target.result);
-        pdfjsLib.getDocument(typedarray).promise.then((pdf) => {
-          setCurrentPdf(pdf);
-          setTotalPages(pdf.numPages);
+
+      if (book.type === "pdf") {
+        reader.onload = (e) => {
+          const typedarray = new Uint8Array(e.target.result);
+          pdfjsLib.getDocument(typedarray).promise.then((pdf) => {
+            setCurrentPdf(pdf);
+            setTotalPages(pdf.numPages);
+            setCurrentPage(book.currentPage);
+            bookTitle.textContent = book.title;
+            readerScreen.classList.remove("hidden");
+            libraryScreen.classList.add("hidden");
+            renderPage(currentPage);
+          });
+        };
+        reader.readAsArrayBuffer(file);
+      } else if (book.type === "fb2") {
+        reader.onload = (e) => {
+          const rawText = e.target.result;
+
+          const parser = new DOMParser();
+
+          const xmlDoc = parser.parseFromString(rawText, "text/xml");
+
+          const fullText = xmlDoc.documentElement.textContent || "";
+          const calculatedPages = Math.ceil(fullText.length / 1500);
+          setCurrentFb2Text(fullText);
+          setTotalPages(calculatedPages);
           setCurrentPage(book.currentPage);
           bookTitle.textContent = book.title;
           readerScreen.classList.remove("hidden");
           libraryScreen.classList.add("hidden");
           renderPage(currentPage);
-        });
-      };
-      reader.readAsArrayBuffer(file);
+        };
+        reader.readAsText(file, "UTF-8");
+      }
+      
     });
   });
 }

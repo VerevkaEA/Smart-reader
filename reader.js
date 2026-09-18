@@ -1,5 +1,11 @@
-import { currentPdf, currentPage, totalPages, setCurrentPage } from './app.js';
-import { renderLibrary } from './library.js';
+import {
+  currentPdf,
+  currentPage,
+  totalPages,
+  setCurrentPage,
+  currentFb2Text,
+} from "./app.js";
+import { renderLibrary } from "./library.js";
 
 const pageCounter = document.getElementById("page-counter");
 const backBtn = document.getElementById("back-to-library-btn");
@@ -17,15 +23,21 @@ const libraryScreen = document.getElementById("library-screen");
 const readerScreen = document.getElementById("reader-screen");
 const bookTitle = document.getElementById("reader-book-title");
 
-
-
 export function renderPage(pageNumber) {
-  currentPdf.getPage(pageNumber).then((page) => {
-    page.getTextContent().then((textContent) => {
-      const text = textContent.items.map((item) => item.str).join(" ");
-      processText(text);
+  if (bookTitle.textContent.endsWith(".pdf")) {
+    currentPdf.getPage(pageNumber).then((page) => {
+      page.getTextContent().then((textContent) => {
+        const text = textContent.items.map((item) => item.str).join(" ");
+        processText(text);
+      });
     });
-  });
+  } else {
+    const start = (pageNumber - 1) * 1500;
+    const end = start + 1500;
+
+    const pageText = currentFb2Text.slice(start, end);
+    processText(pageText);
+  }
 
   pageCounter.textContent = `Страница: ${pageNumber} / ${totalPages}`;
 }
@@ -43,7 +55,6 @@ export function updateBookProgress() {
   }
 }
 
-
 function processText(rawText) {
   const words = rawText.split(" ");
   bookTextContent.innerHTML = "";
@@ -56,7 +67,6 @@ function processText(rawText) {
     bookTextContent.appendChild(document.createTextNode(" "));
   });
 }
-
 
 function getTranslation(word) {
   modalTranslation.textContent = "Searching...";
@@ -81,17 +91,15 @@ function getTranslation(word) {
     });
 }
 
-
 backBtn.addEventListener("click", () => {
   readerScreen.classList.add("hidden");
   libraryScreen.classList.remove("hidden");
   renderLibrary();
 });
 
-
 nextBtn.addEventListener("click", () => {
   if (currentPage < totalPages) {
-    setCurrentPage(currentPage+1);
+    setCurrentPage(currentPage + 1);
     renderPage(currentPage);
     updateBookProgress();
   }
@@ -99,7 +107,7 @@ nextBtn.addEventListener("click", () => {
 
 prevBtn.addEventListener("click", () => {
   if (currentPage > 1) {
-    setCurrentPage(currentPage-1);
+    setCurrentPage(currentPage - 1);
     renderPage(currentPage);
     updateBookProgress();
   }
