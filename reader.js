@@ -72,7 +72,7 @@ function getTranslation(word) {
   modalTranslation.textContent = "Searching...";
   modalDefinition.textContent = "Definition...";
 
-  fetch(`http://localhost:3000/api/translate?word=${encodeURIComponent(word)}`)
+  fetch(`/api/translate?word=${encodeURIComponent(word)}`)
     .then((response) => response.json())
     .then((data) => {
       if (data.error) {

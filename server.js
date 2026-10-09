@@ -5,6 +5,7 @@ const cheerio = require('cheerio');
 const app = express();
 
 app.use(cors());
+app.use(express.static(__dirname)); 
 
 app.get('/api/translate', async (req, res) => {
   const word = req.query.word;
@@ -36,7 +37,7 @@ app.get('/api/translate', async (req, res) => {
     res.status(500).json({ error: "Не удалось получить данные из словаря" });
   }
 });
-
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
